@@ -44,9 +44,8 @@ Crafty.c "TiledLevel",
                 #console.log "#{tile.x} #{tile.y}"
                 layerDetails.tiles[i] = tile
         return layerDetails
-        
-    makeObjectLayer: (layer) ->
 
+    makeObjectLayer: (layer) ->
         layerDetails = {
             tiles: [],
             width: layer.width,
@@ -67,6 +66,7 @@ Crafty.c "TiledLevel",
         #console.log layer
         type = layer.type
         console.log layer.type;
+        console.log layer
         if layer.type == "tilelayer"
           layerDetails = this.makeTileLayer(layer);
         
