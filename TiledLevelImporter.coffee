@@ -31,8 +31,7 @@ Crafty.c "TiledLevel",
         Crafty.sprite(tWidth, tHeight, tsImage, sMap)
         return null
 
-    makeLayer : (layer) ->
-        #console.log layer
+    makeTileLayer: (layer) ->
         {data: lData, width: lWidth, height: lHeight} = layer
         layerDetails = {tiles:[], width:lWidth, height:lHeight}
 
@@ -44,7 +43,39 @@ Crafty.c "TiledLevel",
                 #tile.attr({x: (i % lWidth) * tile.w, y: (i  / lWidth | 0) * tile.h})
                 #console.log "#{tile.x} #{tile.y}"
                 layerDetails.tiles[i] = tile
+        return layerDetails
+        
+    makeObjectLayer: (layer) ->
 
+        layerDetails = {
+            tiles: [],
+            width: layer.width,
+            height: layer.height
+        };
+        return layerDetails
+
+    makeImageLayer: (layer) ->
+        layerDetails = {
+            tiles: [],
+            width: layer.width,
+            height: layer.height
+        };
+
+        return layerDetails; 
+   
+    makeLayer : (layer) ->
+        #console.log layer
+        type = layer.type
+        console.log layer.type;
+        if layer.type == "tilelayer"
+          layerDetails = this.makeTileLayer(layer);
+        
+        else if layer.type == "objectgroup"
+          layerDetails = this.makeObjectLayer(layer);
+        
+        else if(layer.type == "imagelayer")
+          layerDetails = this.makeImageLayer(layer);
+        
         @_layerArray.push(layerDetails)
         return null
 
