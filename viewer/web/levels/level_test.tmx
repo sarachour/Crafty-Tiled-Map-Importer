@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="24" height="17" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="sample_tileset" tilewidth="32" tileheight="32">
+  <image source="../images/sample_tileset.png" width="480" height="736"/>
+  <terraintypes>
+   <terrain name="LavaFloor" tile="-1"/>
+   <terrain name="Wall" tile="-1"/>
+  </terraintypes>
+  <tile id="1" terrain="0,0,0,0"/>
+  <tile id="30" terrain="1,1,1,1"/>
+  <tile id="31" terrain="1,1,1,1"/>
+  <tile id="32" terrain="1,1,1,1"/>
+  <tile id="33" terrain="1,1,1,1"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="24" height="17">
+  <data encoding="base64" compression="zlib">
+   eJwTYGBgEKAhlqcxZh7Fo3gUj+JRPCgxACPaCKE=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="24" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt0EsKgCAURmFXlFZO7TlWqLFC7X8TnS1cUCTxwMed/YOrVP08guBKi0iCW6sLd8H9B2/B/dYboGEwYsIMm2nfYcGKDTsOnJn2/1L/czt9rlQPiw==
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="24" height="17">
+  <object name="GOORA" type="NPC" x="363" y="81" width="54" height="70">
+   <properties>
+    <property name="FRMHOME" value="3234"/>
+    <property name="Faraway" value="red"/>
+   </properties>
+  </object>
+  <object name="FOORA" type="NPC" x="565" y="211" width="48" height="52"/>
+  <object name="SPAWNY" x="154" y="184" width="57" height="74"/>
+  <object name="BOORA" x="238" y="376" width="89" height="60"/>
+  <object name="circ2" x="496" y="62" width="65" height="62">
+   <ellipse/>
+  </object>
+  <object name="circ3" x="643" y="129" width="42" height="53">
+   <ellipse/>
+  </object>
+  <object name="circ4" x="576" y="368" width="17" height="110">
+   <ellipse/>
+  </object>
+  <object name="circ1" x="278" y="124">
+   <polygon points="0,0 69,80 -12,70 -89,2 -61,-23 -116,-39 -58,-67 -4,-87 9,-34 -9,-28 -28,-4 -3,1"/>
+  </object>
+  <object name="Path" x="241" y="321">
+   <polyline points="0,0 100,15 160,-83 236,-32 239,87 227,205 172,86 160,116"/>
+  </object>
+ </objectgroup>
+ <imagelayer name="Image Layer 1" width="24" height="17">
+  <image source="../images/sample_chara_sprite.png" trans="ff0000"/>
+  <properties>
+   <property name="tileh" value="48"/>
+   <property name="tilew" value="36"/>
+  </properties>
+ </imagelayer>
+</map>

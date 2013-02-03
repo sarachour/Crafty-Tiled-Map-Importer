@@ -53,8 +53,33 @@ Crafty.c "TiledLevel",
             visible: layer.visible,
             x: layer.x,
             y: layer.y,
+            w : layer.w,
+            h : layer.h,
+            opacity : layer.opacity,
             name: layer.name
+            objects : {}
         };
+        objs = layerDetails.objects;
+        console.log layer.objects
+        for i in [0...layer.objects.length]
+            o = layer.objects[i]
+            if o.ellipse?
+                poly = [];
+                #TODO: Add ellipse to bounding regions
+                console.log "WARNING: Ellipse regions not supported."
+            else if o.polygon?
+                poly = for idx in [0...o.polygon.length]
+                         [o.polygon[idx].x+o.x, o.polygon[idx].y+o.y];
+            else
+                poly = [[o.x,o.y], [o.x+o.width, o.y],
+                    [o.x+o.width, o.y+o.height], [o.x, o.y+o.height]]
+            objs[o.name] = {
+                region : new Crafty.polygon(poly),
+                type : o.type,
+                properties : o.properties,
+                visible : o.visible
+            };
+        
         #@TODO : Create Tiled Object class that is collidable
         #for i in [0...layer.objects.length]
         #    console.log layer.objects[i]
@@ -67,7 +92,7 @@ Crafty.c "TiledLevel",
             properties : layer.properties,
             transparentcolor : layer.transparentcolor,
         };
-        console.log layer
+        
         layerDetails.image = Crafty.e("2D,DOM,Image").image(layer.image).
           attr({
             w : layer.width,
@@ -125,11 +150,8 @@ Crafty.c "TiledLevel",
     getTile: (r,c,l=0)->
         layer = @_layerArray[l]
         
-        return null if not layer? or r < 0 or r>=layer.height or c<0 or c>=layer.width
+        return null if not layer? or r < 0 or r>=layer.height or c<0 or c>=layer.width or layer.type != "tile"
         
-        if layer.type != "tile" 
-            return undefined
-
         tile = layer.tiles[c + r*layer.width]
         
         if tile
@@ -140,27 +162,29 @@ Crafty.c "TiledLevel",
     getImage: (l=0) ->
         layer = @_layerArray[l]
 
-        return null if not layer? 
-        
-        if layer.type  !=  "image"
-            return undefined
+        return null if not layer? or layer.type  !=  "image" 
 
         return layer.image;
 
     getObject: (name, l=0) ->
         layer = @_layerArray[l]
 
-        return null if not layer? 
-        
-        if layer.type  !=  "object"
-            return undefined
+        return null if not layer? or layer.type  !=  "object" 
 
-        obj - layer.objects[name];
+        obj = layer.objects[name];
         if obj
             return obj
         else
             return undefined
 
+    forEachObject: (fxn, l=0) ->
+        layer = @_layerArray[l]
+
+        return null if not layer? or layer.type != "object"
+
+        for obj of layer.objects
+            fxn layer.objects[obj];
+    
     init: -> 
         @_layerArray = []
         @
