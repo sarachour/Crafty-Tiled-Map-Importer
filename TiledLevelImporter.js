@@ -56,7 +56,7 @@
       return layerDetails;
     },
     makeObjectLayer: function(layer) {
-      var layerDetails;
+      var i, layerDetails, _i, _ref;
       layerDetails = {
         tiles: [],
         width: layer.width,
@@ -66,6 +66,9 @@
         y: layer.y,
         name: layer.name
       };
+      for (i = _i = 0, _ref = layer.objects.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+        console.log(layer.objects[i]);
+      }
       return layerDetails;
     },
     makeImageLayer: function(layer) {

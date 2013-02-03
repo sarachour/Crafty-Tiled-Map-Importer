@@ -55,7 +55,7 @@ Crafty.c "TiledLevel",
             y: layer.y,
             name: layer.name
         };
-        for i=0; i < layer.objects.length; i++
+        for i in [0...layer.objects.length]
             console.log layer.objects[i]
 
         return layerDetails
