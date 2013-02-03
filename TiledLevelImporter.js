@@ -112,7 +112,7 @@
         data: {},
         async: false,
         success: function(level) {
-          var lLayers, ts, tsImages, tss;
+          var l, lLayers, ts, tsImages, tss, _i, _len;
           lLayers = level.layers, tss = level.tilesets;
           drawType = drawType != null ? drawType : "Canvas";
           tsImages = (function() {
@@ -124,14 +124,21 @@
             }
             return _results;
           })();
+          for (_i = 0, _len = lLayers.length; _i < _len; _i++) {
+            l = lLayers[_i];
+            if (l.image != null) {
+              tsImages.push(l.image);
+            }
+          }
+          console.log(tsImages);
           Crafty.load(tsImages, function() {
-            var layer, _i, _j, _len, _len1;
-            for (_i = 0, _len = tss.length; _i < _len; _i++) {
-              ts = tss[_i];
+            var layer, _j, _k, _len1, _len2;
+            for (_j = 0, _len1 = tss.length; _j < _len1; _j++) {
+              ts = tss[_j];
               _this.makeTiles(ts, drawType);
             }
-            for (_j = 0, _len1 = lLayers.length; _j < _len1; _j++) {
-              layer = lLayers[_j];
+            for (_k = 0, _len2 = lLayers.length; _k < _len2; _k++) {
+              layer = lLayers[_k];
               _this.makeLayer(layer);
             }
             _this.trigger("TiledLevelLoaded", _this);

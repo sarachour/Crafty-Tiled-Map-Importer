@@ -55,6 +55,7 @@ Crafty.c "TiledLevel",
             y: layer.y,
             name: layer.name
         };
+        #@TODO : Create Tiled Object class that is collidable
         for i in [0...layer.objects.length]
             console.log layer.objects[i]
 
@@ -108,6 +109,11 @@ Crafty.c "TiledLevel",
                 drawType = drawType ? "Canvas"
                 tsImages = for ts in tss
                     ts.image
+                #Load image layers
+                for l in lLayers when l.image?
+                    tsImages.push l.image
+
+                console.log tsImages
                 Crafty.load tsImages, =>
                     @makeTiles(ts, drawType) for ts in tss
                     @makeLayer(layer) for layer in lLayers
