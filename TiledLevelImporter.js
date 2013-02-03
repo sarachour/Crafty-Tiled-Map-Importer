@@ -56,7 +56,7 @@
       return layerDetails;
     },
     makeObjectLayer: function(layer) {
-      var i, layerDetails, _i, _ref;
+      var layerDetails;
       layerDetails = {
         tiles: [],
         width: layer.width,
@@ -66,39 +66,38 @@
         y: layer.y,
         name: layer.name
       };
-      for (i = _i = 0, _ref = layer.objects.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-        console.log(layer.objects[i]);
-      }
       return layerDetails;
     },
     makeImageLayer: function(layer) {
       var layerDetails;
       layerDetails = {
-        image: null,
-        width: layer.width,
-        height: layer.height,
-        x: layer.x,
-        y: layer.y,
         name: layer.name,
         properties: layer.properties,
-        visible: layer.visible,
         transparentcolor: layer.transparentcolor
       };
-      layerDetails.name = layer.name;
-      layerDetails.properties = layer.properties;
+      console.log(layer);
+      layerDetails.image = Crafty.e("2D,DOM,Image").image(layer.image).attr({
+        w: layer.width,
+        h: layer.height,
+        x: layer.x,
+        y: layer.y,
+        visible: layer.visible,
+        alpha: layer.alpha
+      });
       return layerDetails;
     },
     makeLayer: function(layer) {
       var layerDetails, type;
       type = layer.type;
-      console.log(layer.type);
-      console.log(layer);
       if (layer.type === "tilelayer") {
         layerDetails = this.makeTileLayer(layer);
+        layerDetails.type = "tile";
       } else if (layer.type === "objectgroup") {
         layerDetails = this.makeObjectLayer(layer);
+        layerDetails.type = "object";
       } else if (layer.type === "imagelayer") {
         layerDetails = this.makeImageLayer(layer);
+        layerDetails.type = "image";
       }
       this._layerArray.push(layerDetails);
       return null;
@@ -130,7 +129,6 @@
               tsImages.push(l.image);
             }
           }
-          console.log(tsImages);
           Crafty.load(tsImages, function() {
             var layer, _j, _k, _len1, _len2;
             for (_j = 0, _len1 = tss.length; _j < _len1; _j++) {
@@ -158,9 +156,45 @@
       if (!(layer != null) || r < 0 || r >= layer.height || c < 0 || c >= layer.width) {
         return null;
       }
+      if (layer.type !== "tile") {
+        return void 0;
+      }
       tile = layer.tiles[c + r * layer.width];
       if (tile) {
         return tile;
+      } else {
+        return void 0;
+      }
+    },
+    getImage: function(l) {
+      var layer;
+      if (l == null) {
+        l = 0;
+      }
+      layer = this._layerArray[l];
+      if (!(layer != null)) {
+        return null;
+      }
+      if (layer.type !== "image") {
+        return void 0;
+      }
+      return layer.image;
+    },
+    getObject: function(name, l) {
+      var layer;
+      if (l == null) {
+        l = 0;
+      }
+      layer = this._layerArray[l];
+      if (!(layer != null)) {
+        return null;
+      }
+      if (layer.type !== "object") {
+        return void 0;
+      }
+      obj - layer.objects[name];
+      if (obj) {
+        return obj;
       } else {
         return void 0;
       }
