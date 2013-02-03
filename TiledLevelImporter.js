@@ -60,23 +60,36 @@
       layerDetails = {
         tiles: [],
         width: layer.width,
-        height: layer.height
+        height: layer.height,
+        visible: layer.visible,
+        x: layer.x,
+        y: layer.y,
+        name: layer.name
       };
       return layerDetails;
     },
     makeImageLayer: function(layer) {
       var layerDetails;
       layerDetails = {
-        tiles: [],
+        image: null,
         width: layer.width,
-        height: layer.height
+        height: layer.height,
+        x: layer.x,
+        y: layer.y,
+        name: layer.name,
+        properties: layer.properties,
+        visible: layer.visible,
+        transparentcolor: layer.transparentcolor
       };
+      layerDetails.name = layer.name;
+      layerDetails.properties = layer.properties;
       return layerDetails;
     },
     makeLayer: function(layer) {
       var layerDetails, type;
       type = layer.type;
       console.log(layer.type);
+      console.log(layer);
       if (layer.type === "tilelayer") {
         layerDetails = this.makeTileLayer(layer);
       } else if (layer.type === "objectgroup") {

@@ -49,16 +49,29 @@ Crafty.c "TiledLevel",
         layerDetails = {
             tiles: [],
             width: layer.width,
-            height: layer.height
+            height: layer.height,
+            visible: layer.visible,
+            x: layer.x,
+            y: layer.y,
+            name: layer.name
         };
         return layerDetails
 
     makeImageLayer: (layer) ->
         layerDetails = {
-            tiles: [],
+            image: null,
             width: layer.width,
-            height: layer.height
+            height: layer.height,
+            x: layer.x,
+            y: layer.y,
+            name : layer.name,
+            properties : layer.properties,
+            visible : layer.visible,
+            transparentcolor : layer.transparentcolor,
         };
+        layerDetails.name = layer.name;
+        layerDetails.properties = layer.properties;
+        #@TODO Ajax request image and store. Create sprite from it
 
         return layerDetails; 
    
