@@ -177,14 +177,22 @@ Crafty.c "TiledLevel",
         else
             return undefined
 
-    forEachObject: (fxn, l=0) ->
+    forEach: (fxn, l=0) ->
         layer = @_layerArray[l]
 
-        return null if not layer? or layer.type != "object"
+        return null if not layer? 
 
-        for obj of layer.objects
-            fxn layer.objects[obj];
-    
+        if(layer.type == "object")
+            for obj of layer.objects
+                fxn layer.objects[obj]
+        else if(layer.type == "image")
+                fxn layer;
+        else if(layer.type == "tile")
+                for i in [0...layer.width-1]
+                    for j in [0...layer.height-1]
+                        fxn this.getTile(i,j,l)
+        return null;
+
     init: -> 
         @_layerArray = []
         @

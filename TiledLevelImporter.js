@@ -219,20 +219,29 @@
         return void 0;
       }
     },
-    forEachObject: function(fxn, l) {
-      var layer, obj, _results;
+    forEach: function(fxn, l) {
+      var i, j, layer, obj, _i, _j, _ref, _ref1;
       if (l == null) {
         l = 0;
       }
       layer = this._layerArray[l];
-      if (!(layer != null) || layer.type !== "object") {
+      if (!(layer != null)) {
         return null;
       }
-      _results = [];
-      for (obj in layer.objects) {
-        _results.push(fxn(layer.objects[obj]));
+      if (layer.type === "object") {
+        for (obj in layer.objects) {
+          fxn(layer.objects[obj]);
+        }
+      } else if (layer.type === "image") {
+        fxn(layer);
+      } else if (layer.type === "tile") {
+        for (i = _i = 0, _ref = layer.width - 1; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+          for (j = _j = 0, _ref1 = layer.height - 1; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
+            fxn(this.getTile(i, j, l));
+          }
+        }
       }
-      return _results;
+      return null;
     },
     init: function() {
       this._layerArray = [];

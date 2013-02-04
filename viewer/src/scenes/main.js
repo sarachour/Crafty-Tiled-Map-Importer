@@ -5,7 +5,7 @@ Crafty.scene("main", function() {
 	map = Crafty.e("TiledLevel").tiledLevel("web/levels/level_test.json")
 	
 	map.bind("TiledLevelLoaded",function(){
-		map.forEachObject(function(e){
+		map.forEach(function(e){
 			Crafty.e("2D, DOM, player, Collision,SolidHitBox") //SolidHitBox or WiredHitBox
 			.origin("center")
 			.attr({x: 0, y: 0, _active: true})
