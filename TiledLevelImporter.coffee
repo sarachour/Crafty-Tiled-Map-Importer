@@ -63,13 +63,21 @@ Crafty.c "TiledLevel",
         console.log layer.objects
         for i in [0...layer.objects.length]
             o = layer.objects[i]
+            console.log o
             if o.ellipse?
                 poly = [];
                 #TODO: Add ellipse to bounding regions
-                console.log "WARNING: Ellipse regions not supported."
+                resolution = 40;
+                PI = 3.14159
+                for i in [0...2*PI] by 2*PI/resolution
+                    poly.push [o.x + o.width*Math.cos(i), o.y+o.height*Math.sin(i)];
+                    
             else if o.polygon?
                 poly = for idx in [0...o.polygon.length]
                          [o.polygon[idx].x+o.x, o.polygon[idx].y+o.y];
+            else if o.polyline?
+                poly = for idx in [0...o.polyline.length]
+                         [o.polyline[idx].x+o.x, o.polyline[idx].y+o.y];
             else
                 poly = [[o.x,o.y], [o.x+o.width, o.y],
                     [o.x+o.width, o.y+o.height], [o.x, o.y+o.height]]

@@ -82,6 +82,7 @@ Crafty.c("SolidHitBox", {
                     ctx.lineTo(Crafty.viewport.x+this.map.points[p][0],Crafty.viewport.y+this.map.points[p][1]);  
                 }
                 ctx.closePath(); 
+                ctx.fillStyle = "rgba("+255+","+255+","+100+","+0.8+")";
                 ctx.fill(); 
                 drawed++;
             }); 

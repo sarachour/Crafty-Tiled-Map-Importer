@@ -237,8 +237,8 @@
          "y":0
         }, 
         {
-         "height":117,
-         "image":"web\/images\/sample_chara_sprite.png",
+         "height":17,
+         "image":"..\/images\/sample_chara_sprite.png",
          "name":"Image Layer 1",
          "opacity":1,
          "properties":
@@ -262,7 +262,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"web\/images\/sample_tileset.png",
+         "image":"..\/images\/sample_tileset.png",
          "imageheight":736,
          "imagewidth":480,
          "margin":0,

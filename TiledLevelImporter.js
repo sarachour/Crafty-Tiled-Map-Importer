@@ -56,7 +56,7 @@
       return layerDetails;
     },
     makeObjectLayer: function(layer) {
-      var i, idx, layerDetails, o, objs, poly, _i, _ref;
+      var PI, i, idx, layerDetails, o, objs, poly, resolution, _i, _j, _ref, _ref1, _ref2;
       layerDetails = {
         tiles: [],
         width: layer.width,
@@ -74,15 +74,29 @@
       console.log(layer.objects);
       for (i = _i = 0, _ref = layer.objects.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
         o = layer.objects[i];
+        console.log(o);
         if (o.ellipse != null) {
           poly = [];
-          console.log("WARNING: Ellipse regions not supported.");
+          resolution = 40;
+          PI = 3.14159;
+          for (i = _j = 0, _ref1 = 2 * PI, _ref2 = 2 * PI / resolution; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = _j += _ref2) {
+            poly.push([o.x + o.width * Math.cos(i), o.y + o.height * Math.sin(i)]);
+          }
         } else if (o.polygon != null) {
           poly = (function() {
-            var _j, _ref1, _results;
+            var _k, _ref3, _results;
             _results = [];
-            for (idx = _j = 0, _ref1 = o.polygon.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; idx = 0 <= _ref1 ? ++_j : --_j) {
+            for (idx = _k = 0, _ref3 = o.polygon.length; 0 <= _ref3 ? _k < _ref3 : _k > _ref3; idx = 0 <= _ref3 ? ++_k : --_k) {
               _results.push([o.polygon[idx].x + o.x, o.polygon[idx].y + o.y]);
+            }
+            return _results;
+          })();
+        } else if (o.polyline != null) {
+          poly = (function() {
+            var _k, _ref3, _results;
+            _results = [];
+            for (idx = _k = 0, _ref3 = o.polyline.length; 0 <= _ref3 ? _k < _ref3 : _k > _ref3; idx = 0 <= _ref3 ? ++_k : --_k) {
+              _results.push([o.polyline[idx].x + o.x, o.polyline[idx].y + o.y]);
             }
             return _results;
           })();
