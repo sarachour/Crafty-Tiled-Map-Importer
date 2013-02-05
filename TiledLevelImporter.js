@@ -146,7 +146,26 @@
       return null;
     },
     tiledLevel: function(levelURL, drawType) {
-      var _this = this;
+      var relativeToRoot,
+        _this = this;
+      relativeToRoot = function(im) {
+        var imageArray, j, levelArray, str, _i, _ref;
+        levelArray = levelURL.split("/");
+        imageArray = im.split("/");
+        levelArray.pop();
+        while (imageArray[0] === "..") {
+          imageArray.shift();
+          levelArray.pop();
+        }
+        while (imageArray.length > 0) {
+          levelArray.push(imageArray.shift());
+        }
+        str = levelArray[0];
+        for (j = _i = 1, _ref = levelArray.length; 1 <= _ref ? _i < _ref : _i > _ref; j = 1 <= _ref ? ++_i : --_i) {
+          str += "/" + levelArray[j];
+        }
+        return str;
+      };
       $.ajax({
         type: 'GET',
         url: levelURL,
@@ -154,32 +173,43 @@
         data: {},
         async: false,
         success: function(level) {
-          var l, lLayers, ts, tsImages, tss, _i, _len;
+          var l, lLayers, ts, tsImages, tss, _i, _j, _k, _len, _len1, _len2;
           lLayers = level.layers, tss = level.tilesets;
           drawType = drawType != null ? drawType : "Canvas";
+          for (_i = 0, _len = tss.length; _i < _len; _i++) {
+            ts = tss[_i];
+            ts.image = relativeToRoot(ts.image);
+          }
+          for (_j = 0, _len1 = lLayers.length; _j < _len1; _j++) {
+            l = lLayers[_j];
+            if (l.image != null) {
+              l.image = relativeToRoot(l.image);
+            }
+          }
           tsImages = (function() {
-            var _i, _len, _results;
+            var _k, _len2, _results;
             _results = [];
-            for (_i = 0, _len = tss.length; _i < _len; _i++) {
-              ts = tss[_i];
+            for (_k = 0, _len2 = tss.length; _k < _len2; _k++) {
+              ts = tss[_k];
               _results.push(ts.image);
             }
             return _results;
           })();
-          for (_i = 0, _len = lLayers.length; _i < _len; _i++) {
-            l = lLayers[_i];
+          for (_k = 0, _len2 = lLayers.length; _k < _len2; _k++) {
+            l = lLayers[_k];
             if (l.image != null) {
               tsImages.push(l.image);
             }
           }
+          console.log(tsImages);
           Crafty.load(tsImages, function() {
-            var layer, _j, _k, _len1, _len2;
-            for (_j = 0, _len1 = tss.length; _j < _len1; _j++) {
-              ts = tss[_j];
+            var layer, _l, _len3, _len4, _m;
+            for (_l = 0, _len3 = tss.length; _l < _len3; _l++) {
+              ts = tss[_l];
               _this.makeTiles(ts, drawType);
             }
-            for (_k = 0, _len2 = lLayers.length; _k < _len2; _k++) {
-              layer = lLayers[_k];
+            for (_m = 0, _len4 = lLayers.length; _m < _len4; _m++) {
+              layer = lLayers[_m];
               _this.makeLayer(layer);
             }
             _this.trigger("TiledLevelLoaded", _this);

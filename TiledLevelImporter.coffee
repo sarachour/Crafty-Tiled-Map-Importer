@@ -76,11 +76,13 @@ Crafty.c "TiledLevel",
                 poly = for idx in [0...o.polygon.length]
                          [o.polygon[idx].x+o.x, o.polygon[idx].y+o.y];
             else if o.polyline?
+                #TODO: When there is a decent path component, add it. 
                 poly = for idx in [0...o.polyline.length]
                          [o.polyline[idx].x+o.x, o.polyline[idx].y+o.y];
             else
                 poly = [[o.x,o.y], [o.x+o.width, o.y],
                     [o.x+o.width, o.y+o.height], [o.x, o.y+o.height]]
+            
             objs[o.name] = {
                 region : new Crafty.polygon(poly),
                 type : o.type,
@@ -130,6 +132,21 @@ Crafty.c "TiledLevel",
         return null
 
     tiledLevel : (levelURL, drawType) ->
+        relativeToRoot = (im) ->
+            levelArray = levelURL.split("/");
+            imageArray = im.split("/");
+            levelArray.pop();
+            while(imageArray[0]=="..")
+                imageArray.shift();
+                levelArray.pop();
+            while(imageArray.length > 0)
+                levelArray.push imageArray.shift();
+            str = levelArray[0];
+            for j in [1...levelArray.length]
+                str += "/" + levelArray[j];
+            return str
+
+           
         $.ajax
             type: 'GET'
             url: levelURL
@@ -138,15 +155,23 @@ Crafty.c "TiledLevel",
             async: false
             success: (level) =>
                 #console.log level
+                
                 {layers: lLayers, tilesets: tss} = level
                 drawType = drawType ? "Canvas"
+                for ts in tss
+                    ts.image = relativeToRoot ts.image;
+
+                #Load image layers
+                for l in lLayers when l.image?
+                    l.image = relativeToRoot l.image;
+
                 tsImages = for ts in tss
                     ts.image
                 #Load image layers
                 for l in lLayers when l.image?
                     tsImages.push l.image
-
-                #console.log tsImages
+                    
+                console.log tsImages
                 Crafty.load tsImages, =>
                     @makeTiles(ts, drawType) for ts in tss
                     @makeLayer(layer) for layer in lLayers
