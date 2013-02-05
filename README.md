@@ -19,6 +19,22 @@ If you want to retrieve a reference to a particular map tile later:
 
 ```map.getTile(row, column, layer)```
 
+You can also iterate through elements in a layer using
+
+```map.forEach(function(obj){...}, layer)```
+
+This fork of TiledMapImporter supports object and image layers. 
+
+Object layers contain a list of objects. Each object contains
+the assigned properties and a hitbox describing the associated region.
+
+Image layers contain one image per layer. They are loaded
+as crafty images. It is up to you to find the image layers
+and process them.
+
+The viewer crafty application displays a demo map with an
+object and an image layer.
+
 If the layer is omitted then layer 0 is assumed.
 
 ## Tips for using Tiled
